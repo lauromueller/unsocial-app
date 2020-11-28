@@ -8,7 +8,6 @@
     "prettier": "prettier --check ./src/**/*.ts",
     "prettier:fix": "prettier --write ./src/**/*.ts",
     "start:dev": "nodemon src/index.ts",
-    "start": "echo starting prod server",
     "test": "jest"
   },
   "jest": {
