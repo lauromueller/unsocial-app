@@ -15,5 +15,6 @@ module.exports = {
       'single',
       { avoidEscape: true, allowTemplateLiterals: true },
     ],
+    'import/prefer-default-export': 'off',
   },
 };
