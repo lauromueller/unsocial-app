@@ -8,7 +8,10 @@ const signUpRouter = express.Router();
 signUpRouter.post(
   SIGNUP_ROUTE,
   [
-    body('email').isEmail().withMessage('Email must be in a valid format'),
+    body('email')
+      .isEmail()
+      .withMessage('Email must be in a valid format')
+      .normalizeEmail(),
     body('password')
       .trim()
       .isLength({ min: 8, max: 32 })
@@ -22,15 +25,24 @@ signUpRouter.post(
     body('password')
       .matches(/^(.*\d.*)$/)
       .withMessage('Password must contain at least one digit'),
+    body('password').escape(),
   ],
   (req: Request, res: Response) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      res.status(422).send({});
+      res.sendStatus(422);
     }
 
-    res.send({});
+    if (/.+@[A-Z]/g.test(req.body.email)) {
+      res.sendStatus(422);
+    }
+
+    if (/[><'"/]/g.test(req.body.password)) {
+      res.sendStatus(422);
+    }
+
+    res.send({ email: req.body.email });
   }
 );
 
