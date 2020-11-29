@@ -3,38 +3,6 @@ import app from '../../app';
 import { SIGNUP_ROUTE } from '../signup';
 
 /**
- * Available HTTP methods in /api/auth/signup:
- *   - POST
- */
-describe('tests signup route method availability', () => {
-  let password = '';
-  let email = '';
-
-  beforeAll(() => {
-    password = 'Validpassword1';
-    email = 'test@test.com';
-  });
-
-  it('should return 405 for GET, PUT, PATCH, DELETE requests', async () => {
-    await request(app).get(SIGNUP_ROUTE).expect(405);
-    await request(app).put(SIGNUP_ROUTE).expect(405);
-    await request(app).patch(SIGNUP_ROUTE).expect(405);
-    await request(app).delete(SIGNUP_ROUTE).expect(405);
-  });
-
-  it('should return 200 for POST, OPTIONS requests', async () => {
-    await request(app).post(SIGNUP_ROUTE).send({ email, password }).expect(200);
-    await request(app).options(SIGNUP_ROUTE).expect(200);
-  });
-
-  it('should return POST and OPTIONS as the only allowed methods from an OPTIONS request', async () => {
-    const response = await request(app).options(SIGNUP_ROUTE).expect(200);
-    expect(response.get('access-control-allow-methods')).toContain('POST');
-    expect(response.get('access-control-allow-methods')).toContain('OPTIONS');
-  });
-});
-
-/**
  * Valid email conditions:
  *   - Standard email formats from 'express-validator' package
  */
