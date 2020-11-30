@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../../app';
 import { SIGNUP_ROUTE } from '../signup';
+import { User } from '../../models';
 
 /**
  * Valid email conditions:
@@ -28,7 +29,7 @@ describe('tests validity of email input', () => {
     await request(app)
       .post(SIGNUP_ROUTE)
       .send({ email: 'test@test.com', password })
-      .expect(200);
+      .expect(201);
   });
 });
 
@@ -90,7 +91,7 @@ describe('tests validity of password input', () => {
     await request(app)
       .post(SIGNUP_ROUTE)
       .send({ email, password: 'Valid12valid12' })
-      .expect(200);
+      .expect(201);
   });
 });
 
@@ -104,7 +105,7 @@ describe('tests sanitization of email input', () => {
         email: 'test@TEST.COM',
         password: 'Valid123',
       })
-      .expect(200);
+      .expect(201);
 
     expect(response.body.email).toEqual(normalizedEmail);
   });
@@ -118,6 +119,30 @@ describe('tests sanitization of password input', () => {
         email: 'test@test.com',
         password: 'Valid1<>"',
       })
-      .expect(200);
+      .expect(201);
+  });
+});
+
+describe('tests saving the signed up user to the database', () => {
+  const validUserInfo = {
+    email: 'test@test.com',
+    password: 'Valid123',
+  };
+
+  it('saves the user successfully as long as the information is valid', async () => {
+    const response = await request(app)
+      .post(SIGNUP_ROUTE)
+      .send(validUserInfo)
+      .expect(201);
+    const user = await User.findOne({ email: response.body.email });
+    const userEmail = user ? user.email : '';
+
+    expect(user).toBeDefined();
+    expect(userEmail).toEqual(validUserInfo.email);
+  });
+
+  it('does not allow saving a user with a duplicate email', async () => {
+    await request(app).post(SIGNUP_ROUTE).send(validUserInfo).expect(201);
+    await request(app).post(SIGNUP_ROUTE).send(validUserInfo).expect(422);
   });
 });
