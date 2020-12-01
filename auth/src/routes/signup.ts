@@ -32,7 +32,7 @@ signUpRouter.post(
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return res.sendStatus(422);
+      throw new Error('');
     }
 
     if (/.+@[A-Z]/g.test(req.body.email)) {
