@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { BaseCustomError } from '../errors/base-custom-error';
 
 const errorHandler = (
   err: Error,
@@ -6,9 +7,8 @@ const errorHandler = (
   res: Response,
   _next: NextFunction
 ): Response => {
-  if (err) {
-    // This will change. We will use this to handle custom errors.
-    return res.sendStatus(422);
+  if (err instanceof BaseCustomError) {
+    return res.sendStatus(err.getStatusCode());
   }
 
   return res.sendStatus(500);
