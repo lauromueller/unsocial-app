@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
 
-// Interfaces vs. Types
-
 export type UserDocument = mongoose.Document & {
   email: string;
   password: string;
@@ -19,6 +17,20 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
 });
+
+userSchema.pre(
+  'save',
+  async function preSaveFunction(this: UserDocument, next) {
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    const existingUser = await User.findOne({ email: this.email });
+
+    if (existingUser) {
+      throw new Error('email is already in the database');
+    }
+
+    next();
+  }
+);
 
 const User = mongoose.model<UserDocument, UserModel>('User', userSchema);
 
