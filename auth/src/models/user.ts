@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { DuplicatedEmail } from '../errors';
 
 export type UserDocument = mongoose.Document & {
   email: string;
@@ -25,7 +26,7 @@ userSchema.pre(
     const existingUser = await User.findOne({ email: this.email });
 
     if (existingUser) {
-      throw new Error('email is already in the database');
+      throw new DuplicatedEmail();
     }
 
     next();

@@ -1,6 +1,7 @@
 import { BaseCustomError } from './base-custom-error';
 import { SerializedErrorOutput } from './types/serialized-error-output';
 
+// TODO: rethink naming
 export default class DuplicatedEmail extends BaseCustomError {
   protected statusCode = 422;
 

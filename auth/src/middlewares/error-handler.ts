@@ -8,7 +8,7 @@ const errorHandler = (
   _next: NextFunction
 ): Response => {
   if (err instanceof BaseCustomError) {
-    return res.sendStatus(err.getStatusCode());
+    return res.status(err.getStatusCode()).send(err.serializeErrorOutput());
   }
 
   return res.sendStatus(500);
