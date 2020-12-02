@@ -12,7 +12,7 @@ export default class InvalidInput extends BaseCustomError {
 
   protected errors: ValidationError[] | undefined;
 
-  private errorMessage = 'The input provided is invalid';
+  protected defaultErrorMessage = 'The input provided is invalid';
 
   constructor(errors?: InvalidInputConstructorErrorsParam) {
     super('The input provided is invalid');
@@ -45,7 +45,7 @@ export default class InvalidInput extends BaseCustomError {
     return {
       errors: [
         {
-          message: this.errorMessage,
+          message: this.defaultErrorMessage,
           fields: parsedErrors,
         },
       ],
