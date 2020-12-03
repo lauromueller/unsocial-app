@@ -18,5 +18,6 @@ module.exports = {
     'import/prefer-default-export': 'off',
     '@typescript-eslint/no-empty-interface': 'off',
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    'no-underscore-dangle': ['error', { allow: ['_id'] }],
   },
 };
