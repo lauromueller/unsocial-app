@@ -1,5 +1,5 @@
 import { ValidationError } from 'express-validator';
-import { BaseCustomError } from './base-custom-error';
+import BaseCustomError from './base-custom-error';
 import {
   SerializedErrorField,
   SerializedErrorOutput,

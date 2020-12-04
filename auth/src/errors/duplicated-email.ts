@@ -1,4 +1,4 @@
-import { BaseCustomError } from './base-custom-error';
+import BaseCustomError from './base-custom-error';
 import { SerializedErrorOutput } from './types/serialized-error-output';
 
 // TODO: rethink naming

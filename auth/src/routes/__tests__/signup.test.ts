@@ -152,4 +152,26 @@ describe('tests saving the signed up user to the database', () => {
       'The email is already in the database'
     );
   });
+
+  it('should not include the user password on the response', async () => {
+    const response = await request(app)
+      .post(SIGNUP_ROUTE)
+      .send(validUserInfo)
+      .expect(201);
+
+    expect(response.body.password).toBeUndefined();
+  });
+
+  it('encrypts the user password when saving the user to the database', async () => {
+    const response = await request(app)
+      .post(SIGNUP_ROUTE)
+      .send(validUserInfo)
+      .expect(201);
+
+    const newUser = await User.findOne({ email: response.body.email });
+    const newUserPassword = newUser ? newUser.password : '';
+
+    expect(newUserPassword.length).toBeGreaterThan(0);
+    expect(newUserPassword).not.toEqual(validUserInfo.password);
+  });
 });
