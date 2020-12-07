@@ -1,6 +1,7 @@
 import { randomBytes } from 'crypto';
 import { User } from '../index';
 import { BaseCustomError, DuplicatedEmail } from '../../errors';
+import { PasswordHash } from '../../utils';
 
 describe('tests the User mongoose model', () => {
   const userInfo = {
@@ -38,5 +39,22 @@ describe('tests the User mongoose model', () => {
     expect(newUser.password.split('.')[1].length).toEqual(
       randomBytes(16).toString('hex').length
     );
+  });
+
+  it('should return true when comparing the hashedPassword with its original providedPassword', async () => {
+    const newUser = await User.create(userInfo);
+
+    expect(
+      PasswordHash.compareSync({
+        providedPassword: '1234',
+        storedPassword: newUser.password,
+      })
+    ).toEqual(false);
+    expect(
+      PasswordHash.compareSync({
+        providedPassword: userInfo.password,
+        storedPassword: newUser.password,
+      })
+    ).toEqual(true);
   });
 });

@@ -162,7 +162,7 @@ describe('tests saving the signed up user to the database', () => {
     expect(response.body.password).toBeUndefined();
   });
 
-  it('encrypts the user password when saving the user to the database', async () => {
+  it('should encrypt the user password when saving the user to the database', async () => {
     const response = await request(app)
       .post(SIGNUP_ROUTE)
       .send(validUserInfo)
