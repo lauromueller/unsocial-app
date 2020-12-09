@@ -10,7 +10,8 @@
     "start:dev": "nodemon src/index.ts",
     "test": "jest",
     "test:pre-commit": "jest --passWithNoTests",
-    "test:watch": "jest --watchAll --no-cache"
+    "test:watch": "jest --watchAll --no-cache",
+    "tsc:check": "tsc --noEmit"
   },
   "jest": {
     "testEnvironment": "node",
@@ -58,6 +59,7 @@
     "src/**/*.ts": [
       "npm run prettier:fix",
       "npm run lint",
+      "npm run tsc:check",
       "npm run test:pre-commit",
       "git add"
     ]
