@@ -1,19 +1,21 @@
 // We are following the Singleton pattern
 
-export type EmailSenderSendEmailArgs = {
+export type EmailApiSendEmailArgs = {
   toEmail: string;
 };
 
-export type EmailSenderSendEmailResponse = {
+export type EmailApiSendEmailResponse = {
   toEmail: string;
   status: 'success' | 'error';
 };
 
-export type EmailSenderEmailApi = {
-  sendEmail: () => void;
-};
+export interface EmailSenderEmailApi {
+  sendEmail: (
+    args: EmailApiSendEmailArgs
+  ) => Promise<EmailApiSendEmailResponse>;
+}
 
-export default class EmailSender {
+export default class EmailSender implements EmailSenderEmailApi {
   private isActive = false;
 
   private emailApi: EmailSenderEmailApi | undefined;
@@ -40,14 +42,17 @@ export default class EmailSender {
     this.isActive = false;
   }
 
+  setEmailApi(emailApi: EmailSenderEmailApi): void {
+    this.emailApi = emailApi;
+  }
+
   async sendEmail(
-    args: EmailSenderSendEmailArgs
-  ): Promise<EmailSenderSendEmailResponse> {
+    args: EmailApiSendEmailArgs
+  ): Promise<EmailApiSendEmailResponse> {
     this.validateEmailSender();
 
-    return new Promise((resolve) =>
-      resolve({ toEmail: args.toEmail, status: 'success' })
-    );
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this.emailApi!.sendEmail(args);
   }
 
   private validateEmailSender(): void {
