@@ -1,11 +1,14 @@
 import { EmailSender } from '../index';
-import { MockEmailApi } from '../../test-utils/mock-email-api';
+import {
+  MockEmailApi,
+  mockSendSignUpVerificationEmail,
+} from '../../test-utils/mock-email-api';
 
 it('should throw an error when sending an email if the EmailSender is deactivated', async () => {
   const emailSender = EmailSender.getInstance();
   emailSender.deactivate();
   await expect(
-    emailSender.sendEmail({ toEmail: 'test@test.com' })
+    emailSender.sendSignUpVerificationEmail({ toEmail: 'test@test.com' })
   ).rejects.toThrowError('EmailSender is not active');
 });
 
@@ -13,17 +16,17 @@ it('should throw an error when sending an email if the EmailApi is not set', asy
   const emailSender = EmailSender.getInstance();
   emailSender.activate();
   await expect(
-    emailSender.sendEmail({ toEmail: 'test@test.com' })
+    emailSender.sendSignUpVerificationEmail({ toEmail: 'test@test.com' })
   ).rejects.toThrowError('EmailApi is not set');
 });
 
-it('should send the email correctly if the EmailSender is active and the EmailApi is set', async () => {
+it('should send the signup verification email if the sender is active and the EmailApi is set', async () => {
   const emailSender = EmailSender.getInstance();
   const mockEmailApi = new MockEmailApi();
 
   emailSender.activate();
   emailSender.setEmailApi(mockEmailApi);
 
-  const res = await emailSender.sendEmail({ toEmail: 'test@test.com' });
-  expect(res.toEmail).toEqual('test@test.com');
+  await emailSender.sendSignUpVerificationEmail({ toEmail: 'test@test.com' });
+  expect(mockSendSignUpVerificationEmail).toHaveBeenCalledTimes(1);
 });
