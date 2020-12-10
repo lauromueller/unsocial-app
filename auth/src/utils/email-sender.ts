@@ -38,6 +38,10 @@ export default class EmailSender implements IEmailSender {
     return this.emailSenderInstance;
   }
 
+  static resetEmailSenderInstance(): void {
+    this.emailSenderInstance = new EmailSender();
+  }
+
   activate(): void {
     this.isActive = true;
   }

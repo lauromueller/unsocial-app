@@ -18,7 +18,7 @@ export class MockEmailApi implements IEmailSenderEmailApi {
     return mockSendSignUpVerificationEmail(toEmail);
   }
 
-  sendEmail() {
+  sendEmail(): void {
     mockSendEmail();
   }
 }

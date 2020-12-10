@@ -59,7 +59,6 @@
     "src/**/*.ts": [
       "npm run prettier:fix",
       "npm run lint",
-      "npm run tsc:check",
       "npm run test:pre-commit",
       "git add"
     ]
