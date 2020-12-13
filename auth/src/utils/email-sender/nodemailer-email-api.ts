@@ -3,14 +3,13 @@ import Mail from 'nodemailer/lib/mailer';
 import {
   EmailApiSendEmailArgs,
   EmailApiSendEmailResponse,
-  EmailSenderEmailApi,
+  EmailApi,
 } from './types';
 
-export default class NodemailerEmailApi extends EmailSenderEmailApi {
+export default class NodemailerEmailApi implements EmailApi {
   private transporter: Mail;
 
   constructor() {
-    super();
     this.transporter = nodemailer.createTransport({
       host: 'localhost',
       port: 1025,
@@ -36,7 +35,7 @@ export default class NodemailerEmailApi extends EmailSenderEmailApi {
     };
   }
 
-  protected async sendEmail(args: EmailApiSendEmailArgs): Promise<void> {
+  private async sendEmail(args: EmailApiSendEmailArgs): Promise<void> {
     const { toEmail } = args;
     await this.transporter.sendMail({
       from: 'noreply@unsocial.app',
