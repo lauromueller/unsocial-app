@@ -1,28 +1,14 @@
-// We are following the Singleton pattern
-
-export type EmailApiSendEmailArgs = {
-  toEmail: string;
-};
-
-export type EmailApiSendEmailResponse = {
-  toEmail: string;
-  status: 'success' | 'error';
-};
-
-export interface IEmailSender {
-  sendSignUpVerificationEmail: (
-    args: EmailApiSendEmailArgs
-  ) => Promise<EmailApiSendEmailResponse>;
-}
-
-export interface IEmailSenderEmailApi extends IEmailSender {
-  sendEmail: () => void;
-}
+import {
+  EmailApiSendEmailArgs,
+  EmailApiSendEmailResponse,
+  IEmailSender,
+  EmailSenderEmailApi,
+} from './types';
 
 export default class EmailSender implements IEmailSender {
   private isActive = false;
 
-  private emailApi: IEmailSenderEmailApi | undefined;
+  private emailApi: EmailSenderEmailApi | undefined;
 
   private static emailSenderInstance: EmailSender;
 
@@ -50,7 +36,7 @@ export default class EmailSender implements IEmailSender {
     this.isActive = false;
   }
 
-  setEmailApi(emailApi: IEmailSenderEmailApi): void {
+  setEmailApi(emailApi: EmailSenderEmailApi): void {
     this.emailApi = emailApi;
   }
 
