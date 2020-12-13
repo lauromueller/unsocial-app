@@ -5,14 +5,14 @@ import {
   EmailApiSendEmailResponse,
   EmailApi,
 } from './types';
-import NodemailerAppSmtpServer from './nodemailer-app-smtp-server';
+import NodemailerSmtpServer from './nodemailer-smtp-server';
 
 export default class NodemailerEmailApi implements EmailApi {
   private transporter: Mail;
 
   constructor() {
     this.transporter = nodemailer.createTransport(
-      new NodemailerAppSmtpServer().getConfig()
+      new NodemailerSmtpServer().getConfig()
     );
   }
 
