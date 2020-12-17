@@ -9,7 +9,6 @@
     "prettier:fix": "prettier --write .",
     "start:dev": "nodemon src/index.ts",
     "test": "jest",
-    "test:pre-commit": "jest --passWithNoTests",
     "test:watch": "jest --watchAll --no-cache",
     "tsc:check": "tsc --noEmit"
   },
@@ -61,13 +60,12 @@
     "src/**/*.ts": [
       "npm run prettier:fix",
       "npm run lint",
-      "npm run test:pre-commit",
       "git add"
     ]
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged && npm run test"
     }
   }
 }

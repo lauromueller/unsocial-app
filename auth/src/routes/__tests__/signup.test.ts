@@ -2,6 +2,15 @@ import request from 'supertest';
 import app from '../../app';
 import { SIGNUP_ROUTE } from '../signup';
 import { User } from '../../models';
+import { EmailSender } from '../../utils';
+import { MockEmailApi } from '../../test-utils/mock-email-api';
+
+beforeEach(() => {
+  const emailSender = EmailSender.getInstance();
+
+  emailSender.activate();
+  emailSender.setEmailApi(new MockEmailApi());
+});
 
 /**
  * Valid email conditions:
