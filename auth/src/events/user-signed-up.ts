@@ -9,7 +9,7 @@ export type UserSignedUpRestPayload = {
 export default class UserSignedUp extends BaseAuthEvent<UserSignedUpRestPayload> {
   private user: UserDocument;
 
-  protected statusCode = 201;
+  private statusCode = 201;
 
   constructor(user: UserDocument) {
     super();
