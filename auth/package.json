@@ -7,6 +7,7 @@
     "lint": "eslint src",
     "prettier:check": "prettier --check .",
     "prettier:fix": "prettier --write .",
+    "start": "NODE_ENV=production ts-node src/index.ts",
     "start:dev": "nodemon src/index.ts",
     "test": "jest",
     "test:watch": "jest --verbose --watchAll --no-cache",

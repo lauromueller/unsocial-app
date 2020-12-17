@@ -34,7 +34,7 @@ export default class NodemailerEmailApi implements EmailApi {
   private async sendEmail(args: EmailApiSendEmailArgs): Promise<void> {
     const { toEmail } = args;
     await this.transporter.sendMail({
-      from: 'noreply@unsocial.app',
+      from: 'Unsocial App <noreply@unsocial.app>',
       to: toEmail,
       subject: 'My first email',
       text: 'This is our first test email',

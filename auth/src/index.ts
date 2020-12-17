@@ -4,8 +4,10 @@ import mongoose from 'mongoose';
 import app from './app';
 import { EmailSender, NodemailerEmailApi } from './utils/email-sender';
 
+const parsedNodeEnv = process.env.NODE_ENV || 'development';
+
 dotenv.config({
-  path: '.env.dev',
+  path: parsedNodeEnv === 'development' ? '.env.dev' : '.env.production',
 });
 
 const mongoMemoryServer = new MongoMemoryServer();
