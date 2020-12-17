@@ -1,7 +1,6 @@
 import { EmailSender } from '../index';
 import {
   MockEmailApi,
-  mockSendEmail,
   mockSendSignUpVerificationEmail,
 } from '../../../test-utils/mock-email-api';
 
@@ -33,5 +32,4 @@ it('should send the signup verification email if the sender is active and the Em
   });
   expect(res.toEmail).toEqual('test@test.com');
   expect(mockSendSignUpVerificationEmail).toHaveBeenCalledTimes(1);
-  expect(mockSendEmail).toHaveBeenCalledTimes(1);
 });

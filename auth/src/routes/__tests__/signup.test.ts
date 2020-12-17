@@ -3,7 +3,10 @@ import app from '../../app';
 import { SIGNUP_ROUTE } from '../signup';
 import { User } from '../../models';
 import { EmailSender } from '../../utils';
-import { MockEmailApi } from '../../test-utils/mock-email-api';
+import {
+  MockEmailApi,
+  mockSendSignUpVerificationEmail,
+} from '../../test-utils/mock-email-api';
 
 beforeEach(() => {
   const emailSender = EmailSender.getInstance();
@@ -182,5 +185,17 @@ describe('tests saving the signed up user to the database', () => {
 
     expect(newUserPassword.length).toBeGreaterThan(0);
     expect(newUserPassword).not.toEqual(validUserInfo.password);
+  });
+});
+
+describe('tests the email verification behavior on signup', () => {
+  it('triggers the sendSignUpVerificationEmail method from the EmailSender class', async () => {
+    const validUserInfo = {
+      email: 'test@test.com',
+      password: 'Valid123',
+    };
+
+    await request(app).post(SIGNUP_ROUTE).send(validUserInfo).expect(201);
+    expect(mockSendSignUpVerificationEmail).toHaveBeenCalledTimes(1);
   });
 });

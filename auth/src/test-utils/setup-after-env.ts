@@ -22,6 +22,7 @@ beforeEach(async () => {
   });
 
   EmailSender.resetEmailSenderInstance();
+  jest.clearAllMocks();
 });
 
 afterAll(async () => {

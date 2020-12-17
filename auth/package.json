@@ -9,7 +9,7 @@
     "prettier:fix": "prettier --write .",
     "start:dev": "nodemon src/index.ts",
     "test": "jest",
-    "test:watch": "jest --watchAll --no-cache",
+    "test:watch": "jest --verbose --watchAll --no-cache",
     "tsc:check": "tsc --noEmit"
   },
   "jest": {
