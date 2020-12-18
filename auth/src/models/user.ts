@@ -60,14 +60,31 @@ userSchema.pre(
   }
 );
 
-userSchema.pre('save', async function hashPassword(this: UserDocument) {
-  if (this.isModified('password')) {
-    const hashedPassword = PasswordHash.toHashSync({
-      password: this.get('password'),
-    });
-    this.set('password', hashedPassword);
+userSchema.pre('save', function preHashPassword(this: UserDocument) {
+  const newPassword = this.isModified('password') ? this.get('password') : null;
+
+  if (newPassword) {
+    this.set(
+      'password',
+      PasswordHash.toHashSync({
+        password: newPassword,
+      })
+    );
   }
 });
+
+userSchema.pre(
+  /^.*([Uu]pdate).*$/,
+  async function preHashPassword(this: UpdateQuery<UserDocument>) {
+    const newPassword = this._update.password ? this._update.password : null;
+
+    if (newPassword) {
+      this._update.password = PasswordHash.toHashSync({
+        password: newPassword,
+      });
+    }
+  }
+);
 
 const User = mongoose.model<UserDocument, UserModel>('User', userSchema);
 
