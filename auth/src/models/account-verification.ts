@@ -10,7 +10,17 @@ export type AccountVerificationModel = mongoose.Model<AccountVerificationDocumen
 
 const accountVerificationSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, required: true },
-  emailVerificationToken: { type: String, required: true },
+  emailVerificationToken: {
+    type: String,
+    required: true,
+    validate: (value: string): boolean => {
+      if (!value || value.length !== 64) {
+        throw new Error('Invalid email verification token');
+      }
+
+      return true;
+    },
+  },
 });
 
 accountVerificationSchema.pre(
