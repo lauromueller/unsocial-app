@@ -39,6 +39,20 @@ userSchema.pre(
   }
 );
 
+userSchema.pre(
+  'save',
+  async function setIsVerifiedToFalseOnFirstSave(this: UserDocument, next) {
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    const existingUser = await User.findOne({ email: this.email });
+
+    if (!existingUser) {
+      this.set('isVerified', false);
+    }
+
+    next();
+  }
+);
+
 userSchema.pre('save', async function hashPassword(this: UserDocument, next) {
   if (this.isModified('password')) {
     const hashedPassword = PasswordHash.toHashSync({
