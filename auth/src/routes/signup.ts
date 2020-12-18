@@ -62,7 +62,7 @@ signUpRouter.post(
     const newUser = await User.create({ email, password });
     const emailVerificationToken = generateEmailVerificationToken();
 
-    await AccountVerification.create({
+    const accountVerification = await AccountVerification.create({
       userId: newUser._id,
       emailVerificationToken,
     });
@@ -72,6 +72,7 @@ signUpRouter.post(
 
     emailSender.sendSignUpVerificationEmail({
       toEmail: newUser.email,
+      emailVerificationToken: accountVerification.emailVerificationToken,
     });
 
     return res

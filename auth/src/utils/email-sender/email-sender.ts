@@ -1,7 +1,7 @@
 import {
-  EmailApiSendEmailArgs,
   EmailApiSendEmailResponse,
   EmailApi,
+  EmailApiSendSignUpVerificationEmailArgs,
 } from './types';
 
 export default class EmailSender implements EmailApi {
@@ -40,7 +40,7 @@ export default class EmailSender implements EmailApi {
   }
 
   async sendSignUpVerificationEmail(
-    args: EmailApiSendEmailArgs
+    args: EmailApiSendSignUpVerificationEmailArgs
   ): Promise<EmailApiSendEmailResponse> {
     this.validateEmailSender();
 
