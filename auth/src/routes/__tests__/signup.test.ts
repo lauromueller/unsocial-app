@@ -1,7 +1,7 @@
 import request from 'supertest';
 import app from '../../app';
 import { SIGNUP_ROUTE } from '../signup';
-import { User } from '../../models';
+import { AccountVerification, User } from '../../models';
 import { EmailSender } from '../../utils';
 import {
   MockEmailApi,
@@ -197,5 +197,23 @@ describe('tests the email verification behavior on signup', () => {
 
     await request(app).post(SIGNUP_ROUTE).send(validUserInfo).expect(201);
     expect(mockSendSignUpVerificationEmail).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('tests creating the email verification token on signup', () => {
+  it('should create an AccountVerification entity on successful signup', async () => {
+    const response = await request(app)
+      .post(SIGNUP_ROUTE)
+      .send({
+        email: 'test@test.com',
+        password: 'Valid123',
+      })
+      .expect(201);
+
+    const accountVerification = await AccountVerification.findOne({
+      userId: response.body.id,
+    });
+
+    expect(accountVerification).not.toBeNull();
   });
 });
