@@ -10,7 +10,7 @@
     "start": "NODE_ENV=production ts-node src/index.ts",
     "start:dev": "nodemon src/index.ts",
     "test": "jest",
-    "test:watch": "jest --verbose --watchAll --no-cache",
+    "test:watch": "jest --verbose --watchAll --no-cache --runInBand",
     "tsc:check": "tsc --noEmit"
   },
   "jest": {

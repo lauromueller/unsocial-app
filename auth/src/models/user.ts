@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { UpdateQuery } from 'mongoose';
 import { DuplicatedEmail } from '../errors';
 import { PasswordHash } from '../utils';
 
@@ -25,43 +25,48 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+async function validateUniqueness(userDoc: UserDocument) {
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  const existingUser = await User.findOne({ email: userDoc.email });
+
+  if (existingUser) {
+    throw new DuplicatedEmail();
+  }
+}
+
 userSchema.pre(
   'save',
-  async function validateUniqueness(this: UserDocument, next) {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    const existingUser = await User.findOne({ email: this.email });
+  async function preValidateUniqueness(this: UserDocument) {
+    await validateUniqueness(this);
+  }
+);
 
-    if (existingUser) {
-      throw new DuplicatedEmail();
-    }
-
-    next();
+userSchema.pre(
+  /^.*([Uu]pdate).*$/,
+  async function preValidateUniqueness(this: UpdateQuery<UserDocument>) {
+    await validateUniqueness(this._update);
   }
 );
 
 userSchema.pre(
   'save',
-  async function setIsVerifiedToFalseOnFirstSave(this: UserDocument, next) {
+  async function setIsVerifiedToFalseOnFirstSave(this: UserDocument) {
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     const existingUser = await User.findOne({ email: this.email });
 
     if (!existingUser) {
       this.set('isVerified', false);
     }
-
-    next();
   }
 );
 
-userSchema.pre('save', async function hashPassword(this: UserDocument, next) {
+userSchema.pre('save', async function hashPassword(this: UserDocument) {
   if (this.isModified('password')) {
     const hashedPassword = PasswordHash.toHashSync({
       password: this.get('password'),
     });
     this.set('password', hashedPassword);
   }
-
-  next();
 });
 
 const User = mongoose.model<UserDocument, UserModel>('User', userSchema);

@@ -18,7 +18,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     '@typescript-eslint/no-empty-interface': 'off',
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-    'no-underscore-dangle': ['error', { allow: ['_id'] }],
+    'no-underscore-dangle': ['error', { allow: ['_id', '_update'] }],
     'class-methods-use-this': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
   },

@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import { EmailSender } from '../utils';
 
 let mongoMemoryServer: MongoMemoryServer;
+mongoose.set('useFindAndModify', false);
 
 beforeAll(async () => {
   mongoMemoryServer = new MongoMemoryServer();

@@ -32,6 +32,35 @@ describe('tests the User mongoose model', () => {
     );
   });
 
+  it("should not update an existing user's if the new email is already in the database", async () => {
+    await User.create(userInfo);
+    const newUser2 = await User.create({
+      email: 'test2@test.com',
+      password: 'Valid123',
+    });
+
+    let err: DuplicatedEmail | undefined;
+
+    try {
+      await User.findOneAndUpdate(
+        { _id: newUser2._id },
+        { email: 'test@test.com' },
+        { new: true }
+      );
+    } catch (e) {
+      err = e;
+    }
+
+    const serializedErrorOutput = err ? err.serializeErrorOutput() : undefined;
+
+    expect(err).toBeDefined();
+    expect(err).toBeInstanceOf(BaseCustomError);
+    expect(serializedErrorOutput).toBeDefined();
+    expect(serializedErrorOutput?.errors[0].message).toEqual(
+      'The email is already in the database'
+    );
+  });
+
   it('should encrypt the password when creating the user', async () => {
     const newUser = await User.create(userInfo);
     expect(newUser.password).not.toEqual(userInfo.password);
