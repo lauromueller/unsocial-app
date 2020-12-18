@@ -1,0 +1,22 @@
+name: CI
+
+on: pull_request
+
+jobs:
+  auth:
+    name: Authentication service
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v1
+      - name: Install packages
+        working-directory: auth
+        run: npm ci
+      - name: Formatting, linting, tsc, and tests
+        working-directory: auth
+        run: |
+          npm run prettier:check
+          npm run lint
+          npm run tsc:check
+          npm run test
