@@ -57,4 +57,10 @@ describe('tests the User mongoose model', () => {
       })
     ).toEqual(true);
   });
+
+  it('should set isVerified to false when the value is not provided', async () => {
+    const newUser = await User.create(userInfo);
+
+    expect(newUser.isVerified).toEqual(false);
+  });
 });

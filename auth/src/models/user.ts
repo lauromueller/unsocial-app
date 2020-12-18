@@ -5,9 +5,10 @@ import { PasswordHash } from '../utils';
 export type UserDocument = mongoose.Document & {
   email: string;
   password: string;
+  isVerified?: boolean;
 };
 
-export interface UserModel extends mongoose.Model<UserDocument> {}
+export type UserModel = mongoose.Model<UserDocument>;
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -17,6 +18,10 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+  },
+  isVerified: {
+    type: Boolean,
+    default: false,
   },
 });
 
