@@ -1,6 +1,6 @@
 import request from 'supertest';
 import app from '../../app';
-import { SIGNUP_ROUTE } from '../signup';
+import { SIGNUP_ROUTE } from '../route-defs';
 import { AccountVerification, User } from '../../models';
 import { EmailSender } from '../../utils';
 import {
