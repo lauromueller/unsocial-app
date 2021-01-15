@@ -1,4 +1,4 @@
-name: automerge
+name: CI
 on:
   pull_request:
     types:
@@ -17,11 +17,12 @@ on:
     types:
       - completed
   status: {}
+
 jobs:
   automerge:
     runs-on: ubuntu-latest
     steps:
-      - name: automerge
+      - name: Auto-merge
         uses: "pascalgn/automerge-action@v0.13.0"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
