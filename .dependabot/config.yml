@@ -6,8 +6,11 @@ update_configs:
     automerged_updates:
       - match:
           dependency_type: "all"
-          update_type:
-            - "security:patch"
-            - "semver:patch"
-            - "semver:minor"
+          update_type: "security:patch"
+      - match:
+          dependency_type: "all"
+          update_type: "semver:patch"
+      - match:
+          dependency_type: "all"
+          update_type: "semver:minor"
 
