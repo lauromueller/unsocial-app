@@ -1,0 +1,13 @@
+version: 1
+update_configs:
+  - package_manager: "javascript"
+    directory: "/auth"
+    update_schedule: "daily"
+    automerged_updates:
+      - match:
+          dependency_type: "all"
+          update_type:
+            - "security:patch"
+            - "semver:patch"
+            - "semver:minor"
+
