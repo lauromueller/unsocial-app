@@ -3,7 +3,6 @@
   "baseBranches": ["dependency-updates"],
   "packageRules": [
     {
-      "packagePatterns": ["*"],
       "updateTypes": ["minor", "patch", "pin", "digest"],
       "automerge": true
     }
