@@ -1,7 +1,4 @@
 {
-  "extends": [
-    "config:base"
-  ],
   "rangeStrategy": "pin",
   "baseBranches": ["dependency-updates"],
   "packageRules": [
