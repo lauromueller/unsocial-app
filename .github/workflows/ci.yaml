@@ -12,7 +12,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: '15.x'
+          node-version: '14.x'
       - name: Install packages
         working-directory: auth
         run: npm ci
@@ -23,3 +23,23 @@ jobs:
           npm run lint
           npm run tsc:check
           npm run test
+  web-client:
+    name: Web client service
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+      - name: Install packages
+        working-directory: web-client
+        run: npm ci
+      - name: Formatting, linting, tsc, and tests
+        working-directory: web-client
+        run: |
+          npm run tsc:check
+          npm run tsc:cypress
+          npm run test
+          npm run test:cypress
