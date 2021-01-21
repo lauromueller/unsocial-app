@@ -9,8 +9,10 @@
     "prettier:check": "prettier \"src/**/*.{ts,tsx}\"",
     "start:dev": "NODE_ENV=development webpack serve",
     "test": "jest",
+    "test:all": "npm run test && npm run test:cypress",
     "test:watch": "jest --verbose --watchAll --no-cache --runInBand",
     "test:cypress": "cypress run",
+    "tsc:all": "npm run tsc:check && npm run tsc:cypress",
     "tsc:check": "tsc --noEmit --project tsconfig.json",
     "tsc:cypress": "tsc --noEmit --project cypress/tsconfig.json"
   },
@@ -67,7 +69,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run test && npm run test:cypress && npm run tsc:check && npm run tsc:cypress"
+      "pre-commit": "lint-staged && npm run test:all && npm run tsc:all"
     }
   }
 }
