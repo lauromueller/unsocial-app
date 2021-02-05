@@ -22,7 +22,19 @@ const config = {
         test: /\.tsx?$/,
         use: "babel-loader",
         exclude: /node_modules/
-      }
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(eot|ttf|svg|woff|woff2|png|jpe?g|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
     ]
   },
   plugins: [
