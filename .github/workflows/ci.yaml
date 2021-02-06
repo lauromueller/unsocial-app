@@ -42,6 +42,4 @@ jobs:
           npm run prettier:check
           npm run lint
           npm run tsc:check
-          npm run tsc:cypress
           npm run test
-          npm run test:cypress
