@@ -5,6 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "lint": "eslint src",
+    "lint:staged": "lint-staged",
     "prettier:check": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "start": "NODE_ENV=production ts-node src/index.ts",
@@ -50,7 +51,6 @@
     "eslint-config-prettier": "6.15.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-prettier": "3.3.1",
-    "husky": "4.3.8",
     "jest": "26.6.3",
     "lint-staged": "10.5.3",
     "prettier": "2.2.1",
@@ -63,10 +63,5 @@
       "npm run lint",
       "git add"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && npm run test && npm run tsc:check"
-    }
   }
 }
