@@ -1,21 +1,13 @@
-const fs = require('fs');
-const resolve = require('path').resolve;
-const join = require('path').join;
 const cp = require('child_process');
+const { runCommand } = require('./setup');
 
-const rootDir = join(__dirname, '..');
-
-fs.readdirSync(rootDir).forEach((dirName) => {
-  const dirPath = join(rootDir, dirName);
-
-  if (!fs.existsSync(join(dirPath, 'package.json'))) {
-    return;
-  }
+runCommand(({ dirName, dirPath }) => {
 
   console.log(`### Executing npm ci in: ${dirName}`);
+
   cp.spawn('npm', ['--silent', 'ci'], {
     env: process.env,
     cwd: dirPath,
     stdio: "inherit"
-  })
+  });
 });
