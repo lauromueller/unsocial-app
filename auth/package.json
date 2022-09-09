@@ -55,7 +55,7 @@
     "lint-staged": "10.5.4",
     "prettier": "2.2.1",
     "supertest": "6.2.4",
-    "ts-jest": "26.5.2"
+    "ts-jest": "28.0.8"
   },
   "lint-staged": {
     "src/**/*.ts": [
